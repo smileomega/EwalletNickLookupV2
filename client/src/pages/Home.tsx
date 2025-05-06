@@ -18,6 +18,12 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CheckResult | null>(null);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  
+  // Fungsi untuk menangani klik pada item FAQ
+  const toggleFaq = (index: number) => {
+    setActiveFaq(activeFaq === index ? null : index);
+  };
 
   // Fetch services
   const { data: services } = useQuery<{ success: boolean; data: EWalletService[] }>({    queryKey: ["/api/services"],
@@ -267,40 +273,106 @@ export default function Home() {
             <div className="bg-gray-900/80 border border-gray-800 rounded-xl overflow-hidden">
               {/* FAQ Item 1 */}
               <div className="border-b border-gray-800">
-                <button className="flex justify-between items-center w-full p-5 text-left">
+                <button 
+                  className="flex justify-between items-center w-full p-5 text-left focus:outline-none" 
+                  onClick={() => toggleFaq(0)}
+                >
                   <h3 className="text-lg font-medium text-white">Apakah layanan ini benar-benar gratis?</h3>
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${activeFaq === 0 ? 'transform rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <div className="px-5 pb-5">
+                <div className={`px-5 pb-5 transition-all duration-300 overflow-hidden ${activeFaq === 0 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                   <p className="text-gray-400">Ya, layanan kami sepenuhnya gratis untuk digunakan tanpa biaya tersembunyi.</p>
                 </div>
               </div>
 
               {/* FAQ Item 2 */}
               <div className="border-b border-gray-800">
-                <button className="flex justify-between items-center w-full p-5 text-left">
+                <button 
+                  className="flex justify-between items-center w-full p-5 text-left focus:outline-none" 
+                  onClick={() => toggleFaq(1)}
+                >
                   <h3 className="text-lg font-medium text-white">Apakah data saya aman?</h3>
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${activeFaq === 1 ? 'transform rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <div className="px-5 pb-5">
+                <div className={`px-5 pb-5 transition-all duration-300 overflow-hidden ${activeFaq === 1 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                   <p className="text-gray-400">Kami tidak menyimpan data Anda. Semua pencarian dilakukan di server kami tanpa mencatat informasi pribadi.</p>
                 </div>
               </div>
 
               {/* FAQ Item 3 */}
               <div className="border-b border-gray-800">
-                <button className="flex justify-between items-center w-full p-5 text-left">
+                <button 
+                  className="flex justify-between items-center w-full p-5 text-left focus:outline-none" 
+                  onClick={() => toggleFaq(2)}
+                >
                   <h3 className="text-lg font-medium text-white">Platform e-wallet apa saja yang didukung?</h3>
-                  <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${activeFaq === 2 ? 'transform rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
                   </svg>
                 </button>
-                <div className="px-5 pb-5">
+                <div className={`px-5 pb-5 transition-all duration-300 overflow-hidden ${activeFaq === 2 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
                   <p className="text-gray-400">Saat ini kami mendukung OVO, DANA, ShopeePay, GoPay, dan beberapa e-wallet lainnya.</p>
+                </div>
+              </div>
+              
+              {/* FAQ Item 4 */}
+              <div className="border-b border-gray-800">
+                <button 
+                  className="flex justify-between items-center w-full p-5 text-left focus:outline-none" 
+                  onClick={() => toggleFaq(3)}
+                >
+                  <h3 className="text-lg font-medium text-white">Berapa lama waktu yang dibutuhkan untuk mencari nickname?</h3>
+                  <svg 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${activeFaq === 3 ? 'transform rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div className={`px-5 pb-5 transition-all duration-300 overflow-hidden ${activeFaq === 3 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <p className="text-gray-400">Pencarian nickname biasanya membutuhkan waktu kurang dari 3 detik tergantung pada kecepatan koneksi internet Anda dan beban server kami.</p>
+                </div>
+              </div>
+              
+              {/* FAQ Item 5 */}
+              <div className="border-b border-gray-800">
+                <button 
+                  className="flex justify-between items-center w-full p-5 text-left focus:outline-none" 
+                  onClick={() => toggleFaq(4)}
+                >
+                  <h3 className="text-lg font-medium text-white">Bagaimana jika saya lupa nomor telepon saya?</h3>
+                  <svg 
+                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${activeFaq === 4 ? 'transform rotate-180' : ''}`}
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                <div className={`px-5 pb-5 transition-all duration-300 overflow-hidden ${activeFaq === 4 ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <p className="text-gray-400">Layanan kami hanya dapat mencari nickname berdasarkan nomor telepon yang terdaftar. Jika Anda lupa nomor telepon, silakan hubungi layanan pelanggan e-wallet terkait untuk bantuan lebih lanjut.</p>
                 </div>
               </div>
             </div>
@@ -311,12 +383,12 @@ export default function Home() {
             <div className="bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900 rounded-2xl p-10 shadow-xl border border-purple-800/60">
               <h2 className="text-3xl font-bold text-white mb-4">Mulai Gunakan eWalletNickLookup Sekarang!</h2>
               <p className="text-gray-300 text-lg mb-8 max-w-xl mx-auto">
-                Temukan nickname akun e-wallet Anda dengan cepat, aman, dan gratis.Tidak perlu registrasi, langsung gunakan!  
+                Temukan nickname akun e-wallet Anda dengan cepat, aman, dan gratis. Tidak perlu registrasi, langsung gunakan!  
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button 
-                  className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white font-medium rounded-lg text-lg shadow-lg hover:shadow-xl transform transition hover:-translate-y-1 active:translate-y-0 animate-pulse-slow"
+                  className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-500 text-white font-medium rounded-lg text-lg shadow-lg hover:shadow-xl transform transition hover:-translate-y-1 active:translate-y-0"
                   onClick={() => document.getElementById('checker-form')?.scrollIntoView({behavior: 'smooth'})}
                 >
                   Coba Sekarang
@@ -327,25 +399,6 @@ export default function Home() {
                 >
                   Lihat Dokumentasi API
                 </a>
-              </div>
-              
-              {/* Countdown Timer */}
-              <div className="mt-10 text-center">
-                <p className="text-gray-400 mb-2">Promo spesial akan berakhir dalam:</p>
-                <div className="flex justify-center gap-4">
-                  <div className="bg-gray-800/80 rounded-lg p-3 w-16 border border-gray-700">
-                    <div className="text-2xl font-bold text-white">48</div>
-                    <div className="text-xs text-gray-400">Jam</div>
-                  </div>
-                  <div className="bg-gray-800/80 rounded-lg p-3 w-16 border border-gray-700">
-                    <div className="text-2xl font-bold text-white">12</div>
-                    <div className="text-xs text-gray-400">Menit</div>
-                  </div>
-                  <div className="bg-gray-800/80 rounded-lg p-3 w-16 border border-gray-700">
-                    <div className="text-2xl font-bold text-white">36</div>
-                    <div className="text-xs text-gray-400">Detik</div>
-                  </div>
-                </div>
               </div>
             </div>
           </section>
