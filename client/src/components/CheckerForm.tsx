@@ -58,7 +58,7 @@ export default function CheckerForm({ onSubmit, isLoading, services }: CheckerFo
                 disabled={isLoading}
               >
                 <FormControl>
-                  <SelectTrigger className="h-10 border-gray-300 focus:ring-primary focus:border-primary">
+                  <SelectTrigger className="h-10 bg-gray-800 border-gray-700 text-gray-200 focus:ring-primary focus:border-primary">
                     <SelectValue placeholder="Select an e-wallet service" />
                   </SelectTrigger>
                 </FormControl>
@@ -90,16 +90,16 @@ export default function CheckerForm({ onSubmit, isLoading, services }: CheckerFo
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700">Phone Number / ID</FormLabel>
+              <FormLabel className="text-sm font-medium text-gray-300">Phone Number / ID</FormLabel>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                  <span className="text-gray-500 sm:text-sm">+62</span>
+                  <span className="text-gray-400 sm:text-sm">+62</span>
                 </div>
                 <FormControl>
                   <Input
                     {...field}
                     placeholder="8123456789"
-                    className="pl-12 h-10 border-gray-300 focus:ring-primary focus:border-primary"
+                    className="pl-12 h-10 bg-gray-800 border-gray-700 text-gray-200 focus:ring-primary focus:border-primary"
                     disabled={isLoading}
                   />
                 </FormControl>
