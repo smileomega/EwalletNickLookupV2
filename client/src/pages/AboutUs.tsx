@@ -79,7 +79,7 @@ export default function AboutUs() {
       </Card>
 
       {/* Bagian Visi & Misi */}
-      <Card className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 mb-10 shadow-lg">
+      <Card className="bg-gray-900/80 border border-gray-800 rounded-xl p-8 pb-12 mb-10 shadow-lg">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
           <span className="bg-green-500/20 text-green-400 w-10 h-10 rounded-full flex items-center justify-center mr-3">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -90,7 +90,7 @@ export default function AboutUs() {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">Visi</h3>
+            <h3 className="text-xl font-semibold text-white">Visi</h3>
             <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 h-full">
               <p className="text-gray-300">
                 Menjadi platform terdepan yang menyediakan solusi cepat dan aman untuk pengecekan informasi akun e-wallet di Indonesia, membantu jutaan pengguna dalam mengakses dan memverifikasi akun mereka dengan mudah.
@@ -99,7 +99,7 @@ export default function AboutUs() {
           </div>
           
           <div>
-            <h3 className="text-xl font-semibold text-white mb-4">Misi</h3>
+            <h3 className="text-xl font-semibold text-white">Misi</h3>
             <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700 h-full">
               <ul className="text-gray-300 space-y-2">
                 <li className="flex items-start">

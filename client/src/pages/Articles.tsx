@@ -11,7 +11,6 @@ export default function Articles() {
       excerpt: "Melihat bagaimana e-wallet telah mengubah lanskap pembayaran digital di Indonesia dan kemana arah perkembangannya di masa depan.",
       date: "10 Mei 2025",
       author: "Dewi Ratih",
-      category: "Tren Digital",
       readTime: "5 menit",
       imageUrl: "bg-gradient-to-br from-blue-500 to-purple-600",
     },
@@ -31,7 +30,6 @@ export default function Articles() {
       excerpt: "Analisis mendalam tentang fitur, keunggulan, dan kelemahan dari lima layanan e-wallet yang paling banyak digunakan di Indonesia.",
       date: "1 Mei 2025",
       author: "Arya Satria",
-      category: "Perbandingan",
       readTime: "10 menit",
       imageUrl: "bg-gradient-to-br from-purple-500 to-pink-600",
     },
@@ -41,7 +39,6 @@ export default function Articles() {
       excerpt: "Bagaimana e-wallet telah menjadi bagian tak terpisahkan dari kegiatan sehari-hari masyarakat modern di Indonesia.",
       date: "28 April 2025",
       author: "Siti Nurhaliza",
-      category: "Gaya Hidup",
       readTime: "6 menit",
       imageUrl: "bg-gradient-to-br from-yellow-500 to-red-600",
     },
@@ -51,7 +48,6 @@ export default function Articles() {
       excerpt: "Memahami kerangka hukum dan regulasi yang mengatur operasional layanan e-wallet di Indonesia.",
       date: "25 April 2025",
       author: "Hadi Purnomo",
-      category: "Regulasi",
       readTime: "8 menit",
       imageUrl: "bg-gradient-to-br from-teal-500 to-blue-600",
     },
@@ -61,7 +57,6 @@ export default function Articles() {
       excerpt: "Menjelajahi berbagai peluang karir yang tersedia di industri e-wallet dan fintech yang terus berkembang.",
       date: "20 April 2025",
       author: "Maya Indira",
-      category: "Karir",
       readTime: "7 menit",
       imageUrl: "bg-gradient-to-br from-indigo-500 to-purple-600",
     }
@@ -76,28 +71,6 @@ export default function Articles() {
         <p className="text-gray-400 text-xl max-w-3xl mx-auto">
           Temukan informasi terbaru, tips, dan tren seputar dunia e-wallet
         </p>
-      </div>
-
-      {/* Filter Kategori */}
-      <div className="mb-8 flex flex-wrap gap-2 justify-center">
-        <Button variant="outline" className="bg-gray-800 border-gray-700 text-gray-200 hover:bg-gray-700 hover:text-white">
-          Semua Artikel
-        </Button>
-        <Button variant="outline" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-          Tren Digital
-        </Button>
-        <Button variant="outline" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-          Keamanan
-        </Button>
-        <Button variant="outline" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-          Perbandingan
-        </Button>
-        <Button variant="outline" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-          Gaya Hidup
-        </Button>
-        <Button variant="outline" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-          Regulasi
-        </Button>
       </div>
 
       {/* Daftar Artikel */}
@@ -116,8 +89,12 @@ export default function Articles() {
                 <span>{article.date}</span>
                 <span className="mx-2">•</span>
                 <span>{article.readTime}</span>
-                <span className="mx-2">•</span>
-                <span className="text-blue-400">{article.category}</span>
+                {article.category && (
+                  <>
+                    <span className="mx-2">•</span>
+                    <span className="text-blue-400">{article.category}</span>
+                  </>
+                )}
               </div>
               <h3 className="text-xl font-semibold text-white mb-2">{article.title}</h3>
               <p className="text-gray-400 mb-4 flex-1">{article.excerpt}</p>
@@ -128,38 +105,15 @@ export default function Articles() {
                   </div>
                   <span className="text-sm text-gray-300">{article.author}</span>
                 </div>
-                <Button variant="outline" size="sm" className="ml-auto text-purple-400 border-purple-400/30 hover:bg-purple-400/10">
-                  Baca
-                </Button>
+                <Link href={`/articles/${article.id}`}>
+                  <Button variant="outline" size="sm" className="ml-auto text-purple-400 border-purple-400/30 hover:bg-purple-400/10">
+                    Baca
+                  </Button>
+                </Link>
               </div>
             </div>
           </Card>
         ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex justify-center mt-10">
-        <div className="flex items-center space-x-2">
-          <Button variant="outline" size="icon" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-            </svg>
-          </Button>
-          <Button variant="outline" size="sm" className="bg-blue-600 border-blue-600 text-white hover:bg-blue-700">
-            1
-          </Button>
-          <Button variant="outline" size="sm" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-            2
-          </Button>
-          <Button variant="outline" size="sm" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-            3
-          </Button>
-          <Button variant="outline" size="icon" className="bg-gray-900 border-gray-700 text-gray-400 hover:bg-gray-800 hover:text-white">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-            </svg>
-          </Button>
-        </div>
       </div>
 
       {/* Newsletter Signup */}
@@ -168,8 +122,8 @@ export default function Articles() {
           <h3 className="text-2xl font-bold text-white mb-2">Dapatkan Artikel Terbaru</h3>
           <p className="text-gray-300 mb-6">Berlangganan newsletter kami untuk mendapatkan update artikel terbaru seputar e-wallet</p>
           <div className="flex max-w-md mx-auto">
-            <input 
-              type="email" 
+            <input
+              type="email"
               placeholder="Email Anda"
               className="w-full bg-white/10 border border-white/20 rounded-l-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent"
             />

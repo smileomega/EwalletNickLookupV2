@@ -7,6 +7,7 @@ import Home from "@/pages/Home";
 import ApiDocs from "@/pages/ApiDocs";
 import AboutUs from "@/pages/AboutUs";
 import Articles from "@/pages/Articles";
+import ArticleDetail from "@/pages/ArticleDetail";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/api-docs" component={ApiDocs} />
       <Route path="/about-us" component={AboutUs} />
       <Route path="/articles" component={Articles} />
+      <Route path="/articles/:id" component={ArticleDetail} />
       <Route component={NotFound} />
     </Switch>
   );
