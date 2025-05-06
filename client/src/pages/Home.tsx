@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import CheckerForm from "@/components/CheckerForm";
 import ResultCard from "@/components/ResultCard";
-import ApiDocumentation from "@/components/ApiDocumentation";
 import { useQuery } from "@tanstack/react-query";
 import { EWalletService } from "@shared/schema";
+import { AlertCircle } from "lucide-react";
 
 type CheckResult = {
   phone: string;
@@ -21,8 +20,7 @@ export default function Home() {
   const [result, setResult] = useState<CheckResult | null>(null);
 
   // Fetch services
-  const { data: services } = useQuery<{ success: boolean; data: EWalletService[] }>({
-    queryKey: ["/api/services"],
+  const { data: services } = useQuery<{ success: boolean; data: EWalletService[] }>({    queryKey: ["/api/services"],
   });
 
   const handleCheck = async (phone: string, service: string) => {
@@ -51,20 +49,22 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container max-w-3xl mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <h1 className="text-3xl font-semibold text-primary mb-2">
+    <div className="flex flex-col min-h-screen bg-black text-white">
+      <div className="container max-w-3xl mx-auto px-4 py-8 flex-grow">
+        <header className="mb-12 text-center">
+          <h1 className="text-4xl font-bold text-white mb-4">
             E-Wallet Nickname Checker
           </h1>
-          <p className="text-gray-600">
-            Check account information for popular e-wallet services
+          <p className="text-gray-400 text-lg">
+            Realtime updates, powerful queries, and automatic scaling
           </p>
         </header>
 
         <main>
-          <Card className="mb-8">
+          <Card className="mb-8 bg-gray-900 border-gray-800 shadow-xl">
             <CardContent className="p-6">
+              <h2 className="text-xl font-semibold text-white mb-4">Check Account Info</h2>
+              
               <CheckerForm 
                 onSubmit={handleCheck} 
                 isLoading={isLoading} 
@@ -74,29 +74,18 @@ export default function Home() {
               {isLoading && (
                 <div className="py-8 flex justify-center items-center">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                  <span className="ml-2 text-gray-600">Checking...</span>
+                  <span className="ml-2 text-gray-400">Checking...</span>
                 </div>
               )}
               
               {error && (
-                <div className="mt-4 bg-red-50 border-l-4 border-red-400 p-4">
+                <div className="mt-4 bg-gray-800/50 border-l-4 border-red-500 p-4 rounded-r">
                   <div className="flex">
                     <div className="flex-shrink-0">
-                      <svg 
-                        className="h-5 w-5 text-red-400" 
-                        xmlns="http://www.w3.org/2000/svg" 
-                        viewBox="0 0 20 20" 
-                        fill="currentColor"
-                      >
-                        <path 
-                          fillRule="evenodd" 
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" 
-                          clipRule="evenodd" 
-                        />
-                      </svg>
+                      <AlertCircle className="h-5 w-5 text-red-400" />
                     </div>
                     <div className="ml-3">
-                      <p className="text-sm text-red-700">{error}</p>
+                      <p className="text-sm text-red-400">{error}</p>
                     </div>
                   </div>
                 </div>
@@ -106,12 +95,16 @@ export default function Home() {
             </CardContent>
           </Card>
           
-          <ApiDocumentation />
+          <Card className="bg-gray-900 border-gray-800 shadow-xl p-6 rounded-lg mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="p-2 rounded-full bg-gray-800 text-white">
+                <AlertCircle size={20} />
+              </div>
+              <h2 className="text-xl font-semibold text-white">To manage E-Wallet Checker, ask a project owner for the necessary permissions</h2>
+            </div>
+            <p className="text-gray-400 pl-10">Only authorized users can modify the database or access admin features.</p>
+          </Card>
         </main>
-        
-        <footer className="mt-12 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} E-Wallet Nickname Checker. All rights reserved.</p>
-        </footer>
       </div>
     </div>
   );

@@ -51,7 +51,7 @@ export default function CheckerForm({ onSubmit, isLoading, services }: CheckerFo
           name="service"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700">E-Wallet Service</FormLabel>
+              <FormLabel className="text-sm font-medium text-gray-300">E-Wallet Service</FormLabel>
               <Select 
                 onValueChange={field.onChange} 
                 defaultValue={field.value}
