@@ -4,7 +4,17 @@ import CheckerForm from "@/components/CheckerForm";
 import ResultCard from "@/components/ResultCard";
 import { useQuery } from "@tanstack/react-query";
 import { EWalletService } from "@shared/schema";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 type CheckResult = {
   phone: string;
@@ -14,11 +24,23 @@ type CheckResult = {
   accountStatus: string;
 };
 
+const eWallets = [
+  { key: "ovo", label: "OVO" },
+  { key: "dana", label: "DANA" },
+  { key: "linkaja", label: "LinkAja" },
+  { key: "gopay", label: "GoPay" },
+  { key: "shopeepay", label: "ShopeePay" }
+];
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<CheckResult | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [selectedWallet, setSelectedWallet] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertType, setAlertType] = useState<"success" | "error" | "warning">("success");
 
   // Add this CSS animation
   const styles = `
@@ -50,28 +72,48 @@ export default function Home() {
     queryKey: ["/api/services"],
   });
 
-  const handleCheck = async (phone: string, service: string) => {
+  const baseAPIurl = "https://cekrekening-api.belibayar.online/api/v1/account-inquiry";
+
+  const handleCheck = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     setError(null);
     setResult(null);
+    setShowAlert(false);
 
     try {
-      const response = await fetch(`/api/cek-nickname?phone=${phone}&service=${service}`);
+      const response = await fetch(baseAPIurl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          account_bank: selectedWallet,
+          account_number: phoneNumber,
+        }),
+      });
+
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error?.message || "Failed to check nickname");
-      }
-
-      if (data.success && data.data) {
-        setResult(data.data);
+      if (response.ok) {
+        setAlertType("success");
+        setResult({
+          phone: phoneNumber,
+          service: selectedWallet,
+          serviceName: eWallets.find(w => w.key === selectedWallet)?.label || selectedWallet,
+          nickname: data.data.account_holder,
+          accountStatus: "active"
+        });
       } else {
-        throw new Error("Invalid response from server");
+        setAlertType("warning");
+        setError(data.message || "Failed to check nickname");
       }
     } catch (err) {
+      setAlertType("error");
       setError(err instanceof Error ? err.message : "An unknown error occurred");
     } finally {
       setIsLoading(false);
+      setShowAlert(true);
     }
   };
 
@@ -202,33 +244,99 @@ export default function Home() {
             <CardContent className="p-6">
               <h2 className="text-xl font-semibold text-white mb-4">Cek Nickname E-Wallet</h2>
 
-              <CheckerForm
-                onSubmit={handleCheck}
-                isLoading={isLoading}
-                services={services?.data || []}
-              />
-
-              {isLoading && (
-                <div className="py-8 flex justify-center items-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-                  <span className="ml-2 text-gray-400">Checking...</span>
+              <form onSubmit={handleCheck} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-300">Pilih E-Wallet</label>
+                  <Select
+                    value={selectedWallet}
+                    onValueChange={setSelectedWallet}
+                  >
+                    <SelectTrigger className="w-full bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Pilih e-wallet" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-gray-800 border-gray-700">
+                      {eWallets.map((wallet) => (
+                        <SelectItem
+                          key={wallet.key}
+                          value={wallet.key}
+                          className="text-white hover:bg-gray-700"
+                        >
+                          {wallet.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-              )}
 
-              {error && (
-                <div className="mt-4 bg-gray-800/50 border-l-4 border-red-500 p-4 rounded-r">
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <AlertCircle className="h-5 w-5 text-red-400" />
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-300">Nomor Telepon</label>
+                  <Input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="Masukkan nomor telepon"
+                    className="bg-gray-800 border-gray-700 text-white"
+                    required
+                  />
+                </div>
+
+                {showAlert && (
+                  <Alert
+                    variant={alertType === "success" ? "default" : "destructive"}
+                    className={`${alertType === "success" ? "bg-green-900/50 border-green-800" :
+                      alertType === "warning" ? "bg-yellow-900/50 border-yellow-800" :
+                        "bg-red-900/50 border-red-800"
+                      }`}
+                  >
+                    {alertType === "success" ? (
+                      <CheckCircle2 className="h-4 w-4 text-green-400" />
+                    ) : alertType === "warning" ? (
+                      <AlertCircle className="h-4 w-4 text-yellow-400" />
+                    ) : (
+                      <XCircle className="h-4 w-4 text-red-400" />
+                    )}
+                    <AlertDescription className="text-white">
+                      {result?.nickname || error}
+                    </AlertDescription>
+                  </Alert>
+                )}
+
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Checking...
                     </div>
-                    <div className="ml-3">
-                      <p className="text-sm text-red-400">{error}</p>
-                    </div>
+                  ) : (
+                    "Check Nickname"
+                  )}
+                </Button>
+              </form>
+
+              {result && (
+                <div className="mt-6 p-4 bg-gray-800/50 rounded-lg border border-gray-700">
+                  <h3 className="text-lg font-semibold text-white mb-2">Hasil Pengecekan</h3>
+                  <div className="space-y-2">
+                    <p className="text-gray-300">
+                      <span className="text-gray-400">E-Wallet:</span> {result.serviceName}
+                    </p>
+                    <p className="text-gray-300">
+                      <span className="text-gray-400">Nomor Telepon:</span> {result.phone}
+                    </p>
+                    <p className="text-gray-300">
+                      <span className="text-gray-400">Nickname:</span> {result.nickname}
+                    </p>
+                    <p className="text-gray-300">
+                      <span className="text-gray-400">Status:</span>{" "}
+                      <span className="text-green-400">Active</span>
+                    </p>
                   </div>
                 </div>
               )}
-
-              {result && <ResultCard result={result} />}
             </CardContent>
           </Card>
 
