@@ -10,6 +10,8 @@ import Articles from "@/pages/Articles";
 import ArticleDetail from "@/pages/ArticleDetail";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function Router() {
   return (
@@ -19,6 +21,8 @@ function Router() {
       <Route path="/about-us" component={AboutUs} />
       <Route path="/articles" component={Articles} />
       <Route path="/articles/:id" component={ArticleDetail} />
+      <Route path="/login" component={Login} />
+      <Route path="/register" component={Register} />
       <Route component={NotFound} />
     </Switch>
   );
